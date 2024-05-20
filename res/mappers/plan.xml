@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="plan">
+
+	<insert id="insert" parameterType="plan.vo.CombinePlanVO">
+	
+		
+		INSERT INTO PLAN
+		
+		(PLAN_NUM, PLAN_TITLE, PLAN_DATE, MEM_ID)
+		
+		VALUES
+		
+		(SEQ_PLAN.NEXTVAL, #{plan_title}, SYSDATE, #{mem_id})
+
+
+	</insert>
+
+
+
+	<insert id="insertDetail" parameterType="plan.vo.CombinePlanVO">
+
+
+<!-- 	<selectKey keyProperty="plan_date_num" resultType="int"
+			order="BEFORE">
+			SELECT SEQ_PLAN_DATE.NEXTVAL FROM DUAL
+		</selectKey> -->
+		
+		DECLARE
+		
+			v_plan_num NUMBER;
+			v_plan_date_num NUMBER;
+			v_plan_date_day NUMBER;
+		
+		BEGIN
+		
+			-- 시퀀스 값을 변수에 저장
+			SELECT SEQ_PLAN.CURRVAL INTO v_plan_num FROM DUAL;
+
+			
+			INSERT INTO PLAN_DATE
+			
+			(PLAN_DATE_NUM, PLAN_NUM, PLAN_DATE_DAY, PLAN_DATE_START, PLAN_DATE_END)
+				
+			VALUES
+			
+			(SEQ_PLAN_DATE.NEXTVAL, v_plan_num, #{plan_date_day}, #{plan_date_start}, #{plan_date_end});
+
+			
+			-- 삽입된 레코드의 PLAN_DATE_NUM 값을 가져옴
+			SELECT SEQ_PLAN_DATE.CURRVAL INTO v_plan_date_num FROM DUAL;
+
+
+			-- PLAN_DATE 테이블에서 PLAN_DATE_DAY 값을 조회
+			SELECT PLAN_DATE_DAY INTO v_plan_date_day FROM PLAN_DATE WHERE PLAN_DATE_NUM = v_plan_date_num;
+
+			-- 네 번째 INSERT 문에서 변수를 사용
+			INSERT INTO PLAN_AREA
+			
+			(PLAN_AREA_NUM, PLAN_AREA_NAME, PLAN_AREA_LATI, PLAN_AREA_LONG, CITY_NUM, PLAN_NUM, PLAN_DATE_DAY)
+			
+			VALUES
+			
+			(SEQ_PLAN_AREA.NEXTVAL, #{plan_area_name}, #{plan_area_lati}, #{plan_area_long}, (SELECT CITY_NUM FROM CITY WHERE CITY_NAME = #{city_name}), v_plan_num, v_plan_date_day);
+			
+			END;
+			
+
+	</insert>
+	
+	
+	<select id="selectMyPlanList" parameterType="String"
+	resultType="plan.vo.CombinePlanVO">
+
+	WITH RankedPlans AS (
+    SELECT 
+        p.PLAN_NUM,
+        p.PLAN_DATE, 
+        p.PLAN_TITLE, -- Added this line to select the plan_title
+        pas.PLAN_AREA_SEQ, 
+        pd.PLAN_DATE_START, 
+        pd.PLAN_DATE_END,
+        pa.PLAN_AREA_LATI,
+        pa.PLAN_AREA_LONG,
+        ROW_NUMBER() OVER (PARTITION BY p.PLAN_NUM ORDER BY p.PLAN_DATE) AS rn
+    FROM 
+        PLAN p
+    LEFT JOIN 
+        PLAN_AREA_SEQ pas ON p.PLAN_NUM = pas.PLAN_NUM
+    LEFT JOIN 
+        PLAN_DATE pd ON p.PLAN_NUM = pd.PLAN_NUM
+    LEFT JOIN 
+        plan_area pa ON p.PLAN_NUM = pa.PLAN_NUM
+    WHERE 
+        p.MEM_ID = #{mem_id}
+)
+SELECT 
+    PLAN_NUM,
+    PLAN_DATE, 
+    PLAN_TITLE, -- Also added here to include it in the final result
+    PLAN_AREA_SEQ, 
+    PLAN_DATE_START, 
+    PLAN_DATE_END,
+    PLAN_AREA_LATI,
+    PLAN_AREA_LONG
+FROM 
+    RankedPlans
+WHERE 
+    rn = 1
+ORDER BY
+	PLAN_NUM desc
+
+</select>
+
+	<select id="planCity" parameterType="int" resultType="String">
+		
+		select city_name from city where city_num = #{city_num}
+	
+	</select>
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<select id="planListByCity" parameterType="int" resultType="plan.vo.CombinePlanVO">
+	 SELECT
+    p.PLAN_NUM,
+    MAX(p.PLAN_TITLE) AS PLAN_TITLE,
+    MAX(p.PLAN_DATE) AS PLAN_DATE,
+    MAX(m.MEM_NICK) AS MEM_NICK,
+    MAX(pa.PLAN_AREA_NUM) AS PLAN_AREA_NUM,
+    MAX(pas.PLAN_AREA_SEQ) AS PLAN_AREA_SEQ,
+    MAX(pd.PLAN_DATE_DAY) AS PLAN_DATE_DAY,
+    MAX(pa.PLAN_AREA_NAME) AS PLAN_AREA_NAME,
+    MAX(pa.PLAN_AREA_LATI) AS PLAN_AREA_LATI,
+    MAX(pa.PLAN_AREA_LONG) AS PLAN_AREA_LONG,
+    MAX(pd.PLAN_DATE_START) AS PLAN_DATE_START,
+    MAX(pd.PLAN_DATE_END) AS PLAN_DATE_END
+FROM
+    PLAN p
+JOIN
+    PLAN_AREA pa ON p.PLAN_NUM = pa.PLAN_NUM
+JOIN
+    MEMBER m ON p.MEM_ID = m.MEM_ID
+JOIN
+    PLAN_AREA_SEQ pas ON p.PLAN_NUM = pas.PLAN_NUM
+JOIN
+    PLAN_DATE pd ON p.PLAN_NUM = pd.PLAN_NUM
+WHERE
+    pa.CITY_NUM = #{city_num}
+GROUP BY
+    p.PLAN_NUM
+ORDER BY
+    p.PLAN_NUM DESC
+	
+	</select>
+
+
+
+
+
+
+
+
+</mapper>

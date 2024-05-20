@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="community">
+
+	<select id="selectAll" resultType="community.vo.ComVO">
+
+		SELECT
+			c.com_num as comNum,
+			c.com_title as comTitle,
+			c.com_cont as comCont,
+			substr(c.com_regi,1,8) as comRegi,
+			m.mem_nick as memNick
+		FROM
+			community c, member m
+		WHERE c.com_delyn = 'N'
+		AND m.mem_id = c.mem_id
+		ORDER BY c.com_num DESC
+
+	</select>
+
+
+	<select id="getCom" parameterType="int"
+		resultType="community.vo.ComVO">
+		SELECT
+				C.COM_NUM as comNum,
+				C.COM_TITLE as comTitle,
+				C.COM_CONT as comCont,
+				substr(C.COM_REGI,1,8) as comRegi,
+				C.COM_EDIT as comEdit,
+				C.COM_DELYN as comDelyn,
+				C.MEM_ID as memId,
+				C.COM_IN as comIn,
+				C.CITY_NAME as cityName,
+				B.MEM_ID as memId,
+				B.MEM_NICK as memNick
+		FROM
+				COMMUNITY C
+		LEFT JOIN
+				MEMBER B ON B.MEM_ID = C.MEM_ID
+		WHERE
+				C.COM_NUM = #{COM_NUM} 
+	</select>
+
+
+	<update id="deleteCom" parameterType="int">
+		update community
+		set
+			COM_DELYN = 'Y'
+			where com_num = #{comNum}
+	</update>
+
+
+	<update id="updateCom" parameterType="community.vo.ComVO">
+		update community
+		set
+			city_name = #{cityName}
+			, city_num = #{cityNum}
+			, com_title = #{comTitle}
+			, COM_CONT = #{comCont, jdbcType=CLOB}
+		where com_num = #{comNum}
+		and mem_id = #{memId}
+	</update>
+
+
+	<select id="searchCom" parameterType="String"
+		resultType="community.vo.ComVO">
+		SELECT
+		C.COM_NUM as comNum,
+		C.COM_TITLE as comTitle,
+		C.COM_CONT as comCont,
+		C.COM_REGI as comRegi,
+		C.COM_EDIT as comEdit,
+		C.COM_DELYN as comDelyn,
+		C.MEM_ID as memId,
+		C.COM_IN as comIn,
+		C.CITY_NAME as cityName,
+		B.MEM_ID as memId,
+		B.MEM_NICK as memNick
+		FROM
+		COMMUNITY C
+		LEFT JOIN
+		MEMBER B ON B.MEM_ID = C.MEM_ID
+		WHERE
+		C.COM_TITLE LIKE '%' || #{comTitle} || '%'
+
+	</select>
+
+
+	<!-- 댓글 -->
+	<insert id="">
+		insert into COMMUNITY_COMMENT(COM_COM_NUM,
+		COM_COM_CN, com_num)
+		values(SEQ_COMMUNITY_COMMENT.nextval,
+		#{com_com_cn}, #{com_num} );
+	</insert>
+
+
+
+
+
+	<insert id="insertCom" parameterType="community.vo.ComVO">
+	
+	    INSERT INTO COMMUNITY
+	    (COM_NUM, CITY_NUM, CITY_NAME, COM_TITLE, COM_CONT, MEM_ID)
+	    VALUES
+	    (SEQ_COMMUNITY.nextval, #{cityNum}, #{cityName}, #{comTitle}, #{comCont, jdbcType=CLOB},
+	    (SELECT MEM_ID FROM MEMBER WHERE MEM_ID=#{memId}))
+	    
+	</insert>
+
+
+
+	<!-- 파일 -->
+	<insert id="insertComPhoto" parameterType="community.vo.CombineComVO">
+		INSERT INTO COMMUNITY_PHOTO
+		(COM_PHOTO_NUM, COM_PHOTO_NAME, COM_PHOTO_PATH, COM_PHOTO_EX, COM_PHOTO_SIZE,
+		COM_PHOTO_CREATE, COM_PHOTO_DELYN, COM_NUM)
+		VALUES
+		(SEQ_COMMUNITY_PHOTO.nextval, #{comPhotoName}, #{comPhotoPath}, #{comPhotoEx}, #{comPhotoSize},
+		SYSDATE, 'N', (select com_num from COMMUNITY where com_title = #{com_title}))
+	</insert>
+	
+	
+	
+	<select id="selectMyCommuAll" resultType="community.vo.ComVO">
+
+		SELECT
+			c.com_num as comNum,
+			c.com_title as comTitle,
+			c.com_cont as comCont,
+			substr(c.com_regi,1,8) as comRegi,
+			m.mem_nick as memNick
+		FROM
+			community c 
+			JOIN member m
+			ON c.mem_id = m.mem_id
+		WHERE m.mem_id = #{memId}
+		AND c.COM_DELYN = 'N'
+		ORDER BY c.com_num DESC
+
+	</select>
+
+
+	<select id="comCount" resultType="java.lang.Integer">
+    SELECT COUNT(*) 
+FROM community
+WHERE mem_id = #{memId} AND com_delyn = 'N'
+    
+</select>
+
+
+</mapper>

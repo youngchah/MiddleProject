@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="city">
+
+	<select id="getcitynum" resultType="city.vo.MCityVO">
+		SELECT 
+		    CITY_NUM as city_num,
+		    CITY_COUNTY as city_county,
+		    CITY_NAME as city_name
+		FROM 
+		    CITY
+		WHERE 
+		    ROWNUM &lt;= 8
+
+	</select>
+
+	<select id="selectland" parameterType="int" resultType="city.vo.MLandVO">
+		SELECT
+			    l.LAND_NUM as land_num,
+			    l.LAND_NAME as land_name,
+			    l.LAND_TITLE as land_title,
+			    l.CITY_NUM as city_num,
+			    c.CITY_NAME as city_name
+	    FROM landmark l
+	    JOIN city c ON l.CITY_NUM = c.CITY_NUM
+	    WHERE c.CITY_NUM = #{city_num} AND ROWNUM &lt;= 4
+	</select>
+	
+	<select id="selectCom" parameterType="int" resultType="city.vo.MComVO">
+		SELECT
+	    c.COM_NUM as com_num,
+	    c.COM_TITLE as com_title,
+	    substr(c.com_regi, 1, 8) as com_regi,
+	    m.MEM_NICK as mem_nick,
+	    c.CITY_NAME as city_name
+		FROM
+		    community c
+		JOIN
+		    member m ON c.MEM_ID = m.MEM_ID
+		WHERE
+		    c.CITY_NUM = #{city_num} AND ROWNUM &lt;= 2
+	</select>
+	
+	<select id="selectCity" parameterType="int" resultType="city.vo.MCityVO">
+		SELECT
+		    CITY_NUM as city_num,
+		    CITY_COUNTY as city_county,
+		    CITY_NAME as city_name
+		FROM
+		    city
+		WHERE
+		    CITY_NUM = #{city_num}
+	</select>
+	
+	<select id="allcity" parameterType="int" resultType="city.vo.MCityVO">
+		SELECT
+		    CITY_NUM as city_num,
+		    CITY_COUNTY as city_county,
+		    CITY_NAME as city_name
+		FROM
+		    city
+		WHERE
+		    CITY_NUM = #{city_num}
+		
+	</select>
+	
+	
+	
+	<!-- 와일드 카드 를 써서 단어가 들어오면 그 리스트를 출력해야함 -->
+	
+	<!-- where % || {city name} || %-->
+	
+	
+	
+</mapper>

@@ -1,0 +1,740 @@
+body, html {
+    font-family: 'IBM Plex Sans KR', sans-serif;
+    margin: 0;
+    padding: 0;
+    /* background-color: #f4f4f4; */
+}
+
+
+
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    padding: 20px;
+    background-color: white; /* 배경색 조정 */
+}
+
+.title-input {
+    width: 80%; /* 폭 조정 */
+    padding: 10px;
+    margin-bottom: 20px; /* 여백 조정 */
+    font-size: 20px; /* 폰트 크기 조정 */
+    border: none; /* 모든 테두리 제거 */
+    border-bottom: 2px solid #ccc; /* 항상 보이는 아래 테두리 */
+    outline: none; /* 클릭 시 브라우저 기본 아웃라인 제거 */
+    text-align: left;
+    transition: all 0.3s ease-in-out; /* 부드러운 전환 효과 */
+}
+
+.date-picker {
+    display: flex;
+    justify-content: space-between;
+    width: 80%; /* 폭 조정 */
+}
+
+.date-picker input[type="text"] {
+    width: 48%; /* 폭 조정 */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.date-picker button {
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+}
+
+.addDay {
+    margin: 20px;
+    display: flex;
+    overflow-x: auto; /* Enable horizontal scrolling */
+    white-space: nowrap; /* Keep the inline-blocks in a single line */
+}
+
+.day {
+    display: inline-block; /* Display days inline */
+    background-color: #e7e7e7;
+    border: 1px solid #e7e7e7;
+    border-radius: 8px;
+    padding: 20px;
+    margin-right: 10px; /* Adjust the space between days */
+    vertical-align: top; /* Align the blocks at the top */
+    min-width: 200px; /* Minimum width for each day */
+    white-space: normal; /* Allow text wrapping inside each day block */
+}
+
+
+
+#map {
+    width: 95%;
+    margin: 20px auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.planContainer {
+    width: 40%; /* 화면 너비의 80%를 차지하도록 설정 */
+    margin: 0 auto; /* 좌우 마진을 auto로 설정하여 가운데 정렬 */
+    border: 1px solid #ccc; /* 외곽 테두리 설정 */
+    padding: 20px; /* 내부 여백 추가 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+    background: #fff; /* 배경색 흰색으로 설정 */
+    min-height: 200px; /* 최소 세로 크기 설정 */
+    border-radius: 4px; /* 테두리 모서리 둥글게 */
+    position: relative; /* 후속 요소의 위치를 상대적으로 설정 */
+    top: 50px; /* 페이지 상단에서부터 50px 아래에 위치 */
+}
+
+.header {
+    text-align: center; /* 제목을 가운데 정렬 */
+    margin-bottom: 20px; /* 제목 아래 여백 추가 */
+}
+
+#addDayBtn {
+    padding: 10px 20px; /* 버튼 패딩 */
+    cursor: pointer;
+    background-color: rgb(253,70,102); /* 배경색 */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    position: absolute; /* 화면에 고정 */
+    bottom: -50px; /* 아래에서 20px */
+    right: 0px; /* 오른쪽에서 20px */
+    z-index: 1000; /* 다른 요소들 위에 배치 */
+    box-shadow: 0 4px 6px 0 rgba(0,0,0,0.2);
+    
+}
+
+#writeBtn {
+    padding: 10px 20px; /* 버튼 패딩 */
+    cursor: pointer;
+    background-color: rgb(253,70,102); /* 배경색 */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    position: absolute; /* 화면에 고정 */
+    bottom: -50px; /* 아래에서 20px */
+    right: 0px; /* 오른쪽에서 20px */
+    z-index: 1000; /* 다른 요소들 위에 배치 */
+    box-shadow: 0 4px 6px 0 rgba(0,0,0,0.2);
+    
+}
+
+#placeSearchModal {
+    position: fixed; /* 화면에 고정 */
+    top: 50%; /* 화면 중간에 위치 */
+    left: 50%;
+    transform: translate(-50%, -50%); /* 정확히 중앙에 오도록 조정 */
+    z-index: 10; /* 다른 요소들 위에 표시 */
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 장소 결과 컨테이너 스타일 */
+.place-result {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    background-color: #f9f9f9;
+}
+
+.place-result:hover {
+    background-color: #f0f0f0;
+}
+
+/* 장소 이름 스타일 */
+.place-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+/* 장소 주소 스타일 */
+.place-address {
+    font-size: 14px;
+    color: #666;
+}
+
+.sidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    background-color: white;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 150px;
+
+}
+
+.sidebar a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidebar a:hover {
+    color: #f1f1f1;
+}
+
+#menuBtn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 20px;
+    margin-left: 50px;
+}
+
+.day-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px; /* 내부 여백 조정 */
+    margin-bottom: 20px; /* 하단 여백 조정 */
+    border: 1px solid #ccc; /* 테두리 스타일 조정 */
+    border-radius: 10px; /* 둥근 모서리 추가 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 상자 그림자 추가 */
+    background-color: rgb(253,70,102);
+}
+
+.day-header h3 {
+    color: #fff; /* 글자색을 하얀색으로 설정 */
+}
+
+.delete-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2em; /* 휴지통 아이콘 크기 조절 */
+}
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    justify-content: center;
+    align-items: center;
+    overflow: auto; /* Enable scroll if needed */
+  }
+  
+  .modal-content {
+    background-color: #fff;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 300px; /* Fixed width */
+    box-shadow: 0 4px 6px 0 rgba(0,0,0,0.2); /* Box shadow for 3D effect */
+    text-align: center;
+    border-radius: 10px; /* Rounded corners */
+  }
+  
+  .modal-title {
+    color: #FF0000; /* Red text for the title */
+    margin-bottom: 10px;
+  }
+  
+  .modal-confirm-button {
+    background-color: rgb(253,70,102); /* Green background for the confirm button */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
+  #date-range-container {
+    position: relative;
+    max-width: 250px;
+}
+
+#range {
+    border: none;
+    border-bottom: 2px solid #ccc;
+    /* Black line at the bottom */
+    font-size: 16px;
+    /* Increased font size */
+    padding: 8px 0;
+    /* Padding to ensure the text is vertically centered */
+    width: 100%;
+}
+
+/* Removes input field focus outline */
+#range:focus {
+    outline: none;
+}
+
+
+.place-name {
+    font-size: 16px; /* 폰트 크기 조정 */
+    color: black; /* 폰트 색상 조정 */
+    /* 추가적인 스타일링 */
+}
+
+.place-add {
+
+    font-size: 16px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.marker-icon {
+    position: relative;
+    display: inline-block;
+    color: rgb(253,70,102);
+}
+
+#addScheduleButton {
+    background-color: rgb(253,70,102); /* 버튼 배경색 */
+    color: white; /* 텍스트 색상 */
+    padding: 10px 20px; /* 상하, 좌우 패딩 */
+    border: none; /* 테두리 없음 */
+    border-radius: 5px; /* 테두리 둥글게 */
+    cursor: pointer; /* 마우스 오버 시 커서 변경 */
+    font-size: 16px; /* 폰트 크기 */
+    transition: all 0.3s ease; /* 전환 효과 */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 추가 */
+}
+
+#addScheduleButton:hover {
+    background-color: rgb(233, 50, 85); /* 호버 시 배경색 변경 */
+}
+
+#addScheduleButton:active {
+    transform: translateY(2px); /* 클릭 시 버튼이 약간 내려감 */
+}
+
+#placeButton {
+    background-color: rgb(253,70,102); /* Green background */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Box shadow for depth */
+    transition-duration: 0.4s; /* Smooth transition for hover effect */
+}
+
+#placeButton:hover {
+    background-color: rgb(233, 50, 85); /* 기존 색상보다 더 진하게 조정 */
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.3); /* Larger shadow on hover */
+}
+
+#placeInput {
+
+
+    width: 80%; /* 폭 조정 */
+    padding: 10px;
+    margin-bottom: 20px; /* 여백 조정 */
+    font-size: 20px; /* 폰트 크기 조정 */
+    border: none; /* 모든 테두리 제거 */
+    border-bottom: 2px solid #ccc; /* 항상 보이는 아래 테두리 */
+    outline: none; /* 클릭 시 브라우저 기본 아웃라인 제거 */
+    text-align: left;
+    transition: all 0.3s ease-in-out; /* 부드러운 전환 효과 */
+
+
+
+}
+
+#insidebar  {
+    
+    padding-left: 30px;
+    padding-right: 30px;
+
+}
+
+#placeResults {
+
+    padding-top: 30px;
+
+}
+
+#datepicker {
+
+    width: 80%; /* 폭 조정 */
+    padding: 10px;
+    margin-bottom: 20px; /* 여백 조정 */
+    font-size: 20px; /* 폰트 크기 조정 */
+    border: none; /* 모든 테두리 제거 */
+    border-bottom: 2px solid #ccc; /* 항상 보이는 아래 테두리 */
+    outline: none; /* 클릭 시 브라우저 기본 아웃라인 제거 */
+    text-align: left;
+    transition: all 0.3s ease-in-out; /* 부드러운 전환 효과 */
+
+}
+
+/* 모달창 기본 스타일 */
+.modal1 {
+    display: none; /* 기본적으로 보이지 않게 설정 */
+    position: fixed; /* 화면에 고정 */
+    z-index: 1; /* 다른 모든 것 위에 */
+    left: 0;
+    top: 0;
+    width: 100%; /* 전체 너비 */
+    height: 100%; /* 전체 높이 */
+    overflow: auto; /* 스크롤 가능하게 */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* 오버레이 색상 */
+  }
+  
+  /* 모달 콘텐츠 스타일 */
+  .modal-content1 {
+    background-color: #fefefe;
+    margin: 15% auto; /* 중앙에 위치 */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 20%; /* 너비 */
+    border-radius: 8px;
+  }
+  
+  /* 닫기 버튼 스타일 */
+  .closeNick {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .closeNick:hover,
+  .closeNick:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  /* 확인 버튼 스타일 */
+#confirmNickButton {
+    background-color: black; /* 녹색 */
+    border: none;
+    color: white;
+    padding: 15px 32px; 
+    padding-top: 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 0px 0px;
+    cursor: pointer;
+    border-radius: 8px;
+  }
+  
+  /* 취소 버튼 스타일 */
+  #cancelNickButton {
+    background-color: white; /* 배경색 흰색 */
+    border: 1px solid black; /* 검은색 테두리 */
+    color: black; /* 글자색 검은색 */
+    padding: 15px 32px;
+    padding-top: 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 0px 38px;
+    cursor: pointer;
+    border-radius: 8px;
+  }
+
+#confirmTelButton {
+    background-color: black; /* 녹색 */
+    border: none;
+    color: white;
+    padding: 15px 32px; 
+    padding-top: 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 0px 0px;
+    cursor: pointer;
+    border-radius: 8px;
+  }
+  
+  /* 취소 버튼 스타일 */
+  #cancelTelButton {
+    background-color: white; /* 배경색 흰색 */
+    border: 1px solid black; /* 검은색 테두리 */
+    color: black; /* 글자색 검은색 */
+    padding: 15px 32px;
+    padding-top: 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 0px 38px;
+    cursor: pointer;
+    border-radius: 8px;
+  }
+
+#confirmEmailButton {
+    background-color: black; /* 녹색 */
+    border: none;
+    color: white;
+    padding: 15px 32px; 
+    padding-top: 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 0px 0px;
+    cursor: pointer;
+    border-radius: 8px;
+  }
+  
+  /* 취소 버튼 스타일 */
+  #cancelEmailButton {
+    background-color: white; /* 배경색 흰색 */
+    border: 1px solid black; /* 검은색 테두리 */
+    color: black; /* 글자색 검은색 */
+    padding: 15px 32px;
+    padding-top: 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 0px 38px;
+    cursor: pointer;
+    border-radius: 8px;
+  }
+
+#confirmNameButton {
+    background-color: black; /* 녹색 */
+    border: none;
+    color: white;
+    padding: 15px 32px; 
+    padding-top: 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 0px 0px;
+    cursor: pointer;
+    border-radius: 8px;
+  }
+  
+  /* 취소 버튼 스타일 */
+  #cancelNameButton {
+    background-color: white; /* 배경색 흰색 */
+    border: 1px solid black; /* 검은색 테두리 */
+    color: black; /* 글자색 검은색 */
+    padding: 15px 32px;
+    padding-top: 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 0px 38px;
+    cursor: pointer;
+    border-radius: 8px;
+  }
+  
+
+
+  /* 입력창 스타일 */
+#planInput {
+    border: none; /* 외곽 테두리 제거 */
+    border-bottom: 1px solid #ccc; /* 아래쪽에만 선을 그어줍니다 */
+    font-size: 16px; /* 폰트 크기 */
+    padding: 10px 0; /* 상하 패딩 */
+    outline: none; /* 선택했을 때 테두리 없애기 */
+    width: 100%; /* 부모 요소에 맞춰 너비 설정 */
+  }
+
+  .infoAndDelete {
+            text-align: center;
+            /* 가운데 정렬 */
+            margin: 30px 30px 30px 30px;
+            /* 상하 여백 설정 */
+            font-family: 'IBM Plex Sans KR', sans-serif;
+            transform: translateX(-290px);
+            /* 왼쪽으로 20px 이동 */
+
+  }
+
+
+
+
+
+.formMargin {
+
+    padding: 0px 10px;
+}
+
+.form-row {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+    font-family: 'IBM Plex Sans KR', sans-serif;
+    justify-content: space-between;
+}
+
+.form-row label {
+    width: 20%;
+    text-align: left;
+    padding-right: 10px;
+    background-color: #f2f2f2;
+    /* 옅은 회색 배경 */
+    padding: 10px;
+    /* 적절한 패딩 추가 */
+    border-radius: 8px;
+    /* 둥근 모서리를 위해 */
+}
+
+
+.container1 {
+    width: 800px;
+    /* 필요에 따라 이 값을 조정하세요. */
+    margin: 0 auto;
+    /* 위 아래 마진 0, 좌우 마진 auto로 설정하여 가운데 정렬합니다. */
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+
+    /* 내부 요소들의 절대 위치를 위한 기준점 */
+    margin-bottom: 50px;
+    /* 아래쪽 여백을 50px로 설정 */
+}
+
+.content1,
+.profile-pic {
+    flex-grow: 1;
+    /* 수정: 내용이 flex item들 사이의 남은 공간을 채움 */
+    margin-left: 10px;
+    /* 필요한 경우 마진을 조정하세요 */
+}
+
+.profile-pic img {
+    width: 50px;
+    /* 이미지 크기 조정 */
+    height: auto;
+    margin-right: 10px;
+}
+
+.edit-button {
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background-color: #f4f4f4;
+    cursor: pointer;
+    margin-left: auto;
+
+}
+
+.edit-button:hover {
+    background-color: #e0e0e0;
+}
+
+.wrapper1 {
+    position: relative;
+    /* min-height 속성이 필요 없다면 제거합니다. */
+    /* min-height: 100vh; */
+}
+
+.title1,
+.subtitle1 {
+    text-align: center;
+    /* 가운데 정렬 */
+    margin: 20px 0;
+    /* 상하 여백 설정 */
+    font-family: 'IBM Plex Sans KR', sans-serif;
+    transform: translateX(-330px);
+    /* 왼쪽으로 20px 이동 */
+}
+
+span {
+
+    font-family: 'IBM Plex Sans KR', sans-serif;
+
+}
+
+#memberWithdraw {
+
+    background-color: white;
+    color: black;
+    padding: 10px 20px 13px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 0px 15px;
+    cursor: pointer;
+    border-radius: 30px;
+
+    /* Remove border */
+    border: none;
+
+    /* Add shadow effect */
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for background and color */
+
+
+
+}
+
+#memberInfo {
+    background-color: white;
+    color: black;
+    padding: 10px 20px 13px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 0px 0px;
+    cursor: pointer;
+    border-radius: 30px;
+
+    /* Remove border */
+    border: none;
+
+    /* Add shadow effect */
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for background and color */
+}
+
+#memberInfo:hover {
+    background-color: black; /* Background becomes black */
+    color: white; /* Text becomes white */
+}
+
+#memberWithdraw:hover {
+    background-color: black; /* Background becomes black */
+    color: white; /* Text becomes white */
+}
+  
+  
+  

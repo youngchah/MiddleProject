@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--  
+	이 영역에  SQL문에 맞는 태그를 사용하여 SQL문을 기술한다.
+	
+	사용할 수 있는 기본적인 태그들
+	 <select> ~~~ </select>
+	 <insert> ~~~ </insert>
+	 <update> ~~~ </update>
+	 <delete> ~~~ </delete>
+	 
+	위 태그에서 사용되는 속성들
+	
+	1) id : 해당 태그(SQL)를 호출할 때 namespace값과 연결하여 사용하는 고유 ID값
+	
+	2) parameterType : SQL문에 사용될 데이터가 들어있는 객체타입을 지정한다.
+						(보통 VO클래스 또는 자바의 자료형이름 등이 사용된다.)
+						
+	3) resultType : select문을 실행한 결과를 담을 객체타입을 지정한다. 
+					(보통 VO클래스 또는 자바의 자료형이름 등이 사용된다.)
+					
+	4) resultMap : 결과레코드 컬럼명과 VO객체의 속성명이 다를 경우에 적절한 매핑을 위해 사용한다.
+	
+	
+-->
+<mapper namespace="cs">
+	
+	
+  	<select id="adloginChk" parameterType="map" resultType="string">
+  		select ad_id
+  			from admin 
+		where ad_id = #{adId} and ad_pass = #{adPw}
+  	</select>
+  	
+  	<select id="countList" resultType="int">
+  		SELECT COUNT(*) FROM notice
+  	</select>
+  	
+  	<select id="countQnaList" resultType="int">
+  		SELECT COUNT(*) FROM qna
+  	</select>
+  	
+	<!-- 페이징 쿼리로 바꿀것  -->
+  	<select id="displayNotice" parameterType="map" resultType="cs.vo.NoticeVO">
+   
+        SELECT A.* FROM(
+    			SELECT ROWNUM AS RNUM, B.* FROM (
+        	SELECT
+            NOTI_NUM as notiNum,
+            NOTI_TITLE as notiTitle,
+            NOTI_CN as notiCn,
+            NOTI_CREATE as notiCreate
+        FROM notice
+        WHERE NOTI_DELYN= 'N'
+        ORDER BY NOTI_NUM DESC
+    )B
+    <![CDATA[ where ROWNUM <= #{end}
+		)A where A.rnum >= #{start} ]]>
+	</select>
+	<select id="displayFaq" resultType="cs.vo.FaqVO">
+		select FAQ_QN as faqQn, 
+				FAQ_AN as faqAn
+				from faq
+	</select>
+	
+	<!-- 공지사항 상세보기 -->
+	<select id="getNotiDetail" resultType="cs.vo.NoticeVO">
+		SELECT
+		NOTI_NUM as notiNum,  
+       NOTI_TITLE as notiTitle,
+       NOTI_CN as notiCn,
+       NOTI_CREATE as notiCreate
+		FROM notice
+		WHERE NOTI_NUM = #{notiNum}
+	
+	
+	</select>
+	
+	<!--문의인서트 -->
+	<insert id="insertQna" parameterType="cs.vo.QnaVO">
+	 insert into QNA (QNA_NUM, QNA_CAT, QNA_TITLE, QNA_CN, MEM_ID )
+    values (SEQ_QNA.nextval, #{qnaCat}, #{qnaTitle}, #{qnaCn}, #{memId})
+	
+	</insert>
+	
+	<!-- 문의답변  (관리자)-->
+	<update id="updateQna" parameterType="cs.vo.QnaVO"> 
+	
+	update qna
+    set ans_cn = #{ansCn}
+        , ans_date = sysdate
+        where mem_id = #{memId}
+        
+	
+	</update>
+	
+	<!--문의리스트 셀렉  -->
+	<select id="qnaCusList" resultType="cs.vo.QnaVO" parameterType="String">
+	
+	 <![CDATA[
+        SELECT 
+        QNA_NUM AS qnaNum,				
+        QNA_CAT AS qnaCat,		
+        QNA_TITLE AS qnaTitle,			
+        QNA_CN AS qnaCn,			
+        QNA_DATE AS qnaDate,	
+        QNA_YN AS qnaYn,	
+        MEM_ID AS memId,	
+        ANS_CN AS ansCn,	
+        ANS_DATE AS ansDate	
+        FROM qna
+        WHERE MEM_ID = #{mem_Id} AND QNA_DELYN = 'N'
+        ORDER BY QNA_NUM DESC
+    ]]>
+	
+	
+	</select>
+	
+	
+	<!-- 1:1 문의 수정 (업데이트 문으로)-->
+	
+	<update id="updateQnaCus" parameterType="cs.vo.QnaVO"> 
+	
+	update qna
+    	set
+    	qna_cat = #{qnaCat}
+        ,qna_title = #{qnaTitle}
+        , qna_cn = #{qnaCn}
+        , qna_date = sysdate
+        where qna_num= #{qnaNum} AND QNA_DELYN = 'N'
+        
+	
+	</update>
+	
+	<!-- 1:1 문의 상세 (select) -->
+	<select id="getQnaDetail" resultType="cs.vo.QnaVO">
+		SELECT 
+		QNA_NUM as qnaNum,
+        QNA_TITLE AS qnaTitle,			
+        QNA_CAT AS qnaCat,			
+        QNA_CN AS qnaCn,			
+        QNA_DATE AS qnaDate,	
+        QNA_YN AS qnaYn,	
+        MEM_ID AS memId,	
+        ANS_CN AS ansCn,	
+        ANS_DATE AS ansDate	
+        FROM qna
+		WHERE qna_num = #{qnaNum} AND QNA_DELYN = 'N'
+	
+	</select>
+	
+	<select id="insertNoti" parameterType="cs.vo.NoticeVO">
+		
+		INSERT INTO NOTICE (NOTI_NUM, NOTI_TITLE, NOTI_CN)
+		VALUES (SEQ_NOTICE.NEXTVAL, #{notiTitle}, #{notiCn})
+	
+	
+	</select>
+	
+	<select id="getnotiNum" parameterType="int" resultType="cs.vo.NoticeVO">
+	
+	select noti_num as notiNum, 
+		noti_title as notiTitle, 
+		noti_cn as notiCn,
+		noti_create as notiCreate 
+		from notice 
+		where noti_num = #{notiNum}
+	
+	</select>
+	
+	<update id="updateNotice" parameterType="cs.vo.NoticeVO">
+	update notice set noti_title = #{notiTitle}, 
+	noti_cn = #{notiCn}, 
+	noti_create= sysdate 
+	where  noti_num = #{notiNum}
+
+	</update>
+	
+	<update id="deleteNotice" parameterType="cs.vo.NoticeVO">
+	update notice set noti_delyn = 'Y' 
+	where  noti_num = #{notiNum}
+	
+	</update>
+	
+	<select id="getqnaNum" parameterType="int" resultType="cs.vo.QnaVO">
+	SELECT QNA_NUM AS qnaNum, 
+	QNA_CAT AS qnaCat, 
+	QNA_TITLE AS qnaTitle, 
+	QNA_CN AS qnaCn, 
+	QNA_DATE AS qnaDate, 
+	QNA_YN AS qnaYn, 
+	MEM_ID AS memId, 
+	ANS_CN AS ansCn, 
+	ANS_DATE AS ansDate 
+	FROM QNA
+	WHERE QNA_NUM = #{qnaNum}
+	</select>
+	
+	<update id="insertAns" >
+    update QNA set QNA_YN = 'Y',
+    ANS_CN = #{ansCn},
+    ANS_DATE = SYSDATE
+    where QNA_NUM = #{qnaNum}
+	
+	</update>
+	
+	<update id="deleteQna">
+	update QNA set QNA_Delyn = 'Y' 
+	WHERE QNA_NUM = #{qnaNum}
+	
+	
+	
+	</update>
+	
+		<select id="qnaAllList" resultType="cs.vo.QnaVO" parameterType="String">
+	
+		<![CDATA[
+	    SELECT 
+   		 QNA_NUM AS qnaNum,				
+   		 QNA_CAT AS qnaCat,		
+   		 QNA_TITLE AS qnaTitle,			
+   		 QNA_CN AS qnaCn,			
+   		 QNA_DATE AS qnaDate,	
+   		 QNA_YN AS qnaYn,	
+		 MEM_ID AS memId,	
+	     ANS_CN AS ansCn,	
+    	 ANS_DATE AS ansDate	
+   		 FROM qna
+    		WHERE QNA_DELYN = 'N'
+    		ORDER BY QNA_NUM DESC
+]]>
+	
+	
+	</select>
+	
+	
+	
+
+</mapper>

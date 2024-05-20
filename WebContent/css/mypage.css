@@ -1,0 +1,123 @@
+.cs_img {
+	width: 50%;
+	height: 300px;
+	margin-top: 20px;
+	position: relative;
+	left: 50%;
+	transform: translateX(-50%);
+	margin-bottom: 20px;
+}
+
+
+.cs_img img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	opacity: 0.65;
+}
+
+.text-overlay {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	color: white;
+	font-size: 60px;
+	font-weight: bold;
+}
+
+.button-container {
+	display: flex;
+	justify-content: center;
+	margin-top: 20px;
+}
+
+.button-container .button-wrapper {
+	border: 1px solid lightgray;
+}
+
+.button-container button {
+	padding: 15px 45px;
+	font-size: 16px;
+	background-color: white;
+	color: black;
+	border: none;
+	border-radius: 0; /* 각지게 만들기 */
+	cursor: pointer;
+	transition: background-color 0.3s, color 0.3s;
+	outline: none; /* 추가: 포커스 효과 제거 */
+}
+
+.button-container button:hover {
+	background-color: black;
+	color: white;
+	border-radius: 0;
+	border: none;
+}
+
+.content {
+	display: none;
+	padding: 10px;
+	margin-top: 10px;
+	text-align: center;
+}
+
+.content.active {
+	display: block;
+}
+
+#noticeButton button {
+	background-color: black;
+	color: white;
+}
+
+table {
+	/*   table-layout: fixed; */
+	
+}
+
+table, th, tr {
+	text-align: center;
+}
+
+.board {
+	margin: 0 auto;
+}
+
+.pager {
+	float: left;
+}
+
+#pageArea {
+	display: flex;
+	justify-content: center;
+}
+
+/* FAQ 토글이벤트 */
+.board-item {
+	border: 1px solid #ccc;
+	margin: 10px;
+	padding: 10px;
+}
+
+.question {
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.toggle-icon {
+	margin-left: 10px;
+	cursor: pointer;
+}
+
+.toggle-content {
+	display: none;
+	padding-top: 10px;
+}
+
+.faq-container {
+	width: 50%; /* 이미지의 가로 크기에 따라 조절 */
+	margin: 0 auto; /* 중앙 정렬을 위해 추가 */
+}

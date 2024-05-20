@@ -1,0 +1,298 @@
+@charset "UTF-8";
+:root {
+    --color-gray: rgba(58,58,58,1);
+    --color-gray20: rgba(58,58,58,0.02);
+    --color-gray50: rgba(58,58,58,0.05);
+    --color-gray100: rgba(58,58,58,0.1);
+    --color-gray200: rgba(58,58,58,0.2);
+    --color-gray300: rgba(58,58,58,0.3);
+    --color-gray400: rgba(58,58,58,0.4);
+    --color-gray500: rgba(58,58,58,0.5);
+    --color-gray600: rgba(58,58,58,0.6);
+    --color-gray700: rgba(58,58,58,0.7);
+    --color-gray800: rgba(58,58,58,0.8);
+    --color-gray900: rgba(58,58,58,0.9);
+    --color-brightGray: rgba(239,239,239,1);
+    --color-blue: rgba(54,143,255,1);
+    --color-blue60: rgba(54,143,255,0.06);
+    --color-blue100: rgba(54,143,255,0.1);
+    --color-blue500: rgba(54,143,255,0.5);
+    --color-blue980: rgba(54,143,255,0.98);
+    --color-mint: rgba(38,206,194,1);
+    --color-mint100: rgba(38,206,194,0.1);
+    --color-orange: rgba(255,150,35,1);
+    --color-red: rgba(253,46,105,1);
+    --color-red100: rgba(253,46,105,0.1);
+    --color-red50: rgba(253,46,105,0.05);
+    --color-deepOrange: rgba(255,91,46,1);
+    --color-mediumRed: rgba(255,33,60,1);
+    --color-deepRed: rgba(190,0,23,1);
+    --color-purple: rgba(151,95,254,1);
+    --color-purple100: rgba(151,95,254,0.1);
+    --color-emerald: rgba(13,208,175,1);
+    --color-white: rgba(255,255,255,1);
+    --color-white600: rgba(255,255,255,0.6);
+    --color-white900: rgba(255,255,255,0.9);
+    --color-skyblue: rgba(55,168,255,1);
+    --color-lightpurple: rgba(151,95,254,1);
+    --color-black: rgba(34,34,34,1);
+    --color-azul: rgba(31,87,250,1);
+    --color-azul500: rgba(31,87,250,0.5);
+    --color-teal: rgba(10,219,143,1);
+    --color-teal100: rgba(10,219,143,0.1);
+    --color-teal900: rgba(10,219,143,0.9);
+    --color-vermilion: rgb(255,97,105,1);
+}
+
+body {
+    margin: 0px;
+    line-height: inherit;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.city_name {
+  font-family: "Noto Sans KR", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+}
+
+*, ::before, ::after {
+/*     box-sizing: inherit; */
+    border-width: 0px;
+    rder-style: none;
+}
+
+.city_name {
+	margin-left: 600px;
+    margin-right: 600px;
+    margin-top: 70px;
+    margin-bottom: 30px;
+	color: #FD4666;
+	font-size: 50px;	
+}
+
+.citym_name{
+	margin-top: 80px;
+}
+
+/* 메뉴 버튼 */
+.button-container {
+	display: flex;
+	justify-content: center;
+	margin-top: 20px;
+}
+#landmarkButton button{
+	background-color: black !important;
+	color: white !important;
+}
+.button-container .button-wrapper {
+	border: 1px solid lightgray;
+}
+.button-container button {
+	padding: 15px 45px;
+	font-size: 16px;
+	background-color: white;
+	color: black;
+	border: none;
+	border-radius: 0; /* 각지게 만들기 */
+	cursor: pointer;
+	transition: background-color 0.3s, color 0.3s;
+	outline: none; /* 추가: 포커스 효과 제거 */
+}
+.button-container button:hover {
+	background-color: black;
+	color: white;
+	border-radius: 0;
+	border: none;
+}
+
+
+/* 리스트 테두리 포함 시작 */
+.fwpVfi {
+    padding: 40px 20px 30px;
+    min-width: 280px;
+    max-width: 768px;
+}
+.khCmaL {
+    box-sizing: border-box;
+    float: none;
+    background-color: rgb(255, 255, 255);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* 리스트 전체 */
+.dvjTnb {
+    display: grid;
+    grid-template-rows: repeat(5, 1fr);
+    justify-items: center;
+    column-gap: 20px;
+}
+.aqwlW {
+    display: block;
+}
+
+
+/* 리스트 중 한 칸  */
+.dwcsWL {
+    box-sizing: border-box;
+    display: inline-block;
+    line-height: normal;
+    width: 100%;
+    padding: 20px 0px 21px;
+    border-bottom: 1px solid var(--color-gray100);
+}
+    /* 리스트 중 맨 마지막 칸 */
+.bEbOwi {
+    box-sizing: border-box;
+    display: inline-block;
+    line-height: normal;
+    width: 100%;
+    padding: 20px 0px 21px;
+    border-bottom: none;
+}
+.hgfquE {
+    line-height: normal;
+    color: -webkit-link;
+}
+a {
+    color: inherit;
+    text-decoration: inherit;
+}
+/* a:-webkit-any-link {
+    color: -webkit-link;
+    cursor: pointer;
+    text-decoration: underline;
+} */
+
+
+/* 리스트 중 한 칸의 내부 */
+.loescV {
+    display: grid;
+    grid-template-columns: 28px 1fr 125px;
+    grid-template-areas: "rank content image";
+}
+.iLKpSz {
+    box-sizing: border-box;
+    float: none;
+}
+
+
+/* 리스트 중 한 칸의 내부 중 제일 왼쪽 */
+.jTkzfI {
+    grid-area: rank;
+}
+.iTfrgG {
+    box-sizing: border-box;
+/*     overflow-wrap: break-word; */
+    color: rgb(54, 143, 255);
+    float: none;
+    font-weight: bold;
+    text-align: center;
+    white-space: pre-line;
+    margin: 0px 8px 0px 0px;
+    font-size: 16px;
+    line-height: 1.2;
+    letter-spacing: 0px;
+}
+
+
+/* 리스트 중 한 칸의 내부 중 가운데 */
+.dAxKfT {
+    grid-area: content;
+    width: 100%;
+}
+.iLKpSz {
+    box-sizing: border-box;
+    float: none;
+}
+/* 내부 가운데 중 타이틀 */
+.kMBrSA {
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    color: rgb(58, 58, 58);
+    float: none;
+    font-weight: bold;
+    margin: 0px 0px 5px;
+    font-size: 16px;
+    line-height: 1.2;
+    letter-spacing: 0px;
+}
+/* 내부 가운데 중 설명 */
+.kmXOoF {
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    color: rgba(58, 58, 58, 0.8);
+    float: none;
+    font-weight: 500;
+    margin: 0px 0px 5px;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+/* 내부 가운데 중 하트 있는 곳 */
+.jYypYA {
+    margin-bottom: 5px;
+}
+@media (min-width: 281px){
+    .jYypYA > div {
+        display: inline-flex;
+    }
+}
+.fobRlV {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+}
+.gYqlYq {
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    color: rgb(58, 58, 58);
+    float: none;
+    font-weight: 500;
+    white-space: pre-line;
+    margin: 0px 0px 0px 2px;
+    font-size: 13px;
+    line-height: 1.2;
+    letter-spacing: 0px;
+}
+/* 내부 중 가운데 중 가장 밑 줄 */
+.RUqvc {
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    color: rgba(58, 58, 58, 0.4);
+    float: none;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 1.2;
+    letter-spacing: 0px;
+}
+
+
+/* 사진 */
+.gffdPI {
+    grid-area: image;
+    width: 110px;
+    height: 110px;
+    margin-left: 15px;
+    border-radius: 6px;
+    object-fit: cover;
+}
+/* img {
+    overflow-clip-margin: content-box;
+    overflow: clip;
+} */
+img, video {
+    max-width: 100%;
+}
+img, svg, video, canvas, audio, iframe, embed, object {
+    vertical-align: middle;
+}
+

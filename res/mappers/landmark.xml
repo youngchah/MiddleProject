@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="landmark">
+
+<!-- 	<resultMap type="landmark.vo.LandmarkVO" id="landMap"> -->
+<!-- 		<result column="land_num" property="landNum" javaType="int"/> -->
+<!-- 		<result column="land_name" property="landName" javaType="String"/> -->
+<!-- 		<result column="land_lat" property="landLat" javaType="int"/> -->
+<!-- 		<result column="land_lng" property="landLng" javaType="int"/> -->
+<!-- 		<result column="land_title" property="landTitle" javaType="String"/> -->
+<!-- 		<result column="land_cont" property="landCont" javaType="String"/> -->
+<!-- 		<result column="land_addr" property="landAddr" javaType="String"/> -->
+<!-- 		<result column="land_like" property="landLike" javaType="int"/> -->
+<!-- 		<result column="city_num" property="cityNum" javaType="int"/> -->
+<!-- 	</resultMap> -->
+
+
+	<select id="selectfour" parameterType="int" resultType="landmark.vo.LandmarkVO">
+	select a.land_num as landNum
+	     , a.land_name as landName
+	     , a.land_lat as landLat
+	     , a.land_lng as landLng
+	     , a.city_num as cityNum
+	     , b.city_name as cityName
+	     , a.land_cont as landCont
+	from landmark a
+    	, city b
+	where a.city_num = b.city_num(+)
+	and a.city_num = 1
+	and rownum &lt;= 4
+	ORDER BY a.land_num
+	</select>
+	
+	
+	<select id="selectAll" parameterType="int" resultType="landmark.vo.LandmarkVO">
+	select a.land_num as landNum
+	     , a.land_name as landName
+	     , a.land_title as landTitle
+	     , a.land_cont as landCont
+	     , a.land_like as landLike
+	     , a.land_addr as landAddr
+	     , a.city_num as cityNum
+	     , b.city_name as cityName
+	from landmark a
+    	, city b
+	where a.city_num = b.city_num(+)
+	and a.city_num = 1
+	ORDER BY land_num
+	</select>
+	
+	
+	<select id="selectDetail" resultType="landmark.vo.LandmarkVO">
+	select a.land_num as landNum
+	     , a.land_name as landName
+	     , a.city_num as cityNum
+	     , b.city_name as cityName
+	     , a.land_cont as landCont
+	     , a.land_title as landTitle
+	     , a.land_like as landLike
+	     , a.land_addr as landAddr
+	from landmark a
+    	, city b
+	where a.city_num = b.city_num(+)
+	and a.city_num = #{cityNum}
+	and a.land_name = #{landName}
+	</select>
+	
+	
+	
+	<!-- 신하림 코드 -->
+	<select id="selectCityList" parameterType="int" resultType="landmark.vo.LandmarkVO">
+	SELECT a.land_num AS landNum,
+	       a.land_name AS landName,
+	       a.land_title AS landTitle,
+	       a.land_cont AS landCont,
+	       a.land_like AS landLike,
+	       a.land_addr AS landAddr,
+	       a.city_num AS cityNum,
+	       b.city_name AS cityName,
+	       b.city_county AS cityCounty  -- 여기에 city_county 컬럼 추가
+	FROM landmark a, city b
+	WHERE a.city_num = b.city_num(+)
+	AND a.city_num = #{cityNum}
+	ORDER BY a.land_num
+
+	</select>
+	
+	
+</mapper>

@@ -1,0 +1,638 @@
+@charset "UTF-8";
+body {
+    margin: 0px;
+    line-height: inherit;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+/* body 전체 */
+/* .bHbgtZ {
+    max-width: 768px;
+} */
+.ljxfRw {
+    box-sizing: border-box;
+    float: none;
+}
+
+/* 장소,도시,하트,저장하기 있는 container */
+.landcityheart {
+    position: relative;
+    min-width: 300px;
+    max-width: 750px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* 장소명, 도시명 */
+.OyWys {
+    margin-top: 20px;
+    display: inline-block;
+}
+.jShTvj {
+    position: relative;
+    min-width: 320px;
+    max-width: 768px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+.gtIYLX {
+    box-sizing: border-box;
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+}
+/* 장소명 */
+.fatsMo {
+    line-height: 1.2;
+    font-size: 24px;
+    font-weight: bold;
+    color: rgb(58, 58, 58);
+}
+.kiOhYG {
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    color: rgb(58, 58, 58);
+    float: none;
+    font-weight: 500;
+    white-space: pre-line;
+/*     font-size: 16px; */
+    line-height: 1.2;
+    letter-spacing: 0px;
+}
+blockquote, dl, dd, h1, h2, h3, h4, h5, h6, hr, figure, p, pre {
+    margin: 0px;
+}
+/* 아이콘+도시명 container */
+.ciYqIz {
+    padding-left: 20px;
+    background-image: url(https://assets.triple.guide/images/ico-end-location@3x.png);
+    background-size: 16px 16px;
+    background-repeat: no-repeat;
+    background-position: left top;
+}
+/* 도시명 */
+.kISMdP {
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    color: rgba(58, 58, 58, 0.8);
+    float: none;
+    font-weight: bold;
+    white-space: pre-line;
+    margin: 10px 0px 0px;
+    font-size: 15px;
+    line-height: 1.38;
+    letter-spacing: 0px;
+}
+
+/* 하트 container */
+.kQbRjp {
+    margin: 20px 30px 0px;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+}
+.iLKpSz {
+    box-sizing: border-box;
+    float: none;
+}
+/* 빨간하트+숫자 */
+.creumU {
+    box-sizing: border-box;
+/*     overflow-wrap: break-word; */
+    color: rgb(58, 58, 58);
+    display: inline;
+    float: none;
+    font-weight: bold;
+/*     white-space: pre-line; */
+    font-size: 20px;
+    line-height: 1.2;
+    letter-spacing: 0px;
+/*     margin-left: 33px; */
+}
+/* 빨간하트만 */
+.hoxXFc {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    background-image: url(https://assets.triple.guide/images/ico-save@4x.png);
+    background-size: 25px 25px;
+    background-repeat: no-repeat;
+    vertical-align: text-bottom;
+}
+/* 숫자만 */
+#count_like {
+	margin-left: 25px;
+}
+
+/* 저장하기 */
+.iAbSBt .sc-aXZVg {
+    flex: 1 1 0%;
+}
+.clWIrv {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+.ffGVpL {
+    display: inline-flex;
+    align-items: center;
+    color: rgba(58, 58, 58, 0.5);
+    float: none;
+    font-weight: 500;
+    text-align: center;
+    font-size: 13px;
+    line-height: 16px;
+    /* padding: 12px; */
+}
+/* 저장하기버튼 container */
+.kyfWrw {
+    display: inline-flex;
+    align-items: center;
+    color: rgb(58, 58, 58);
+    float: none;
+    font-weight: 500;
+    text-align: center;
+    font-size: 15px;
+    line-height: 16px;
+    margin-top: 7px;
+    padding-right: 30px;
+}
+button, [role="button"] {
+    cursor: pointer;
+}
+button {
+    appearance: button;
+    background-color: transparent;
+    background-image: none;
+    border: 0;
+}
+button, select {
+    text-transform: none;
+}
+button, input, optgroup, select, textarea {
+    font-family: inherit;
+    font-size: 100%;
+    line-height: inherit;
+    color: inherit;
+    margin: 0px;
+    padding: 0px;
+}
+/* 버튼 안에 하트 */
+.ffGVpL::before {
+    content: "";
+    display: block;
+/*     width: 30px; */
+    height: 30px;
+    margin-right: 5px;
+    background-size: 30px;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+.heartBtn {
+	
+}
+
+.item-details .product-info .heart-wrapper {
+  color: #000;
+  display: inline-block;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.item-details .product-info .heart-wrapper:hover {
+  color: #5830E0;
+}
+
+.item-details .product-info .heart-wrapper:hover::before {
+  content: "\f004";
+  /* Unicode 코드로 별 아이콘을 content에 추가 */
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  font-size: 20px;
+  color: #5830E0;
+  transition: color 0.3s;
+}
+
+
+/* 메인 이미지 슬라이드 옆, 위 마진 메인사진 container */
+.gPIRS {
+    margin-top: 20px;
+}
+.cVoooL {
+    min-width: 320px;
+    max-width: 768px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.jShTvj {
+    position: relative;
+    min-width: 320px;
+    max-width: 768px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+/* 웹용 메인 이미지 */
+.dTWxVi {
+    display: block;
+}
+.crQJDw {
+    min-height: 400px;
+}
+.gctrMt {
+    overflow: visible;
+}
+.cysEUw {
+    box-sizing: border-box;
+    position: relative;
+    float: none;
+    overflow: hidden;
+    mask-image: radial-gradient(white, black);
+    border-radius: 6px;
+}
+
+/* 메인 이미지 */
+.epwwZL {
+    background-color: rgb(245, 245, 245);
+    font-size: 0px;
+    position: relative;
+    width: 100%;
+    height: 400px;
+    float: none;
+}
+
+/* 이미지 출처 */
+.kDxVGP {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    max-width: 150px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 9px;
+    line-height: 1.2;
+    color: rgba(255, 255, 255, 0.9);
+    z-index: 1;
+}
+
+/* 슬라이드 이미지 관련 */
+.gctrMt img {
+    pointer-events: none;
+}
+.fnXjsk {
+    width: 100%;
+    height: 100%;
+    border-radius: 0px;
+    object-fit: cover;
+    opacity: 1;
+    position: absolute;
+    top: 0px;
+    z-index: 0;
+}
+img, video {
+    max-width: 100%;
+}
+img, svg, video, canvas, audio, iframe, embed, object {
+    vertical-align: middle;
+}
+
+/* 마지막 이미지 */
+.gsKZnh {
+    width: 100%;
+    height: 100%;
+    border-radius: 0px;
+    object-fit: cover;
+    opacity: 0.8;
+    position: absolute;
+    top: 0px;
+    z-index: 0;
+}
+
+/* 슬라이드 우측 상단 이미지 개수 */
+.iWkdEu {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    z-index: 2;
+}
+.iAfeoh {
+    margin: 10px;
+    padding: 5px 7px;
+    color: rgb(255, 255, 255);
+    border-radius: 12px;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+.ffmdVD {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+
+/* 슬라이드 하단 저장하기 */
+.gtIYLX::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+.iAbSBt {
+    width: 100%;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+/*     gap: 22px; */
+}
+
+
+/* 슬라이드 이미지 밑 hr */
+.hQhwxP {
+    margin: 8px 0px 0px;
+}
+.hIeNMK {
+    height: 1px;
+}
+
+/* 주 제목 */
+.hgqDuD {
+    margin: 30px 0px;
+}
+.gtIYLX {
+    box-sizing: border-box;
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+}
+.fWbsVm {
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    color: rgb(58, 58, 58);
+    float: none;
+    font-weight: bold;
+    white-space: pre-line;
+    margin: 3px 0px 0px;
+    font-size: 21px;
+    line-height: 1.2;
+    letter-spacing: 0px;
+}
+.gtIYLX::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+/* 부제목, 내용 container */
+.ietXUq {
+    padding: 0px;
+    margin: 0px 0px 50px;
+}
+
+/* 부제목 */
+.gwRvKi {
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    color: rgb(58, 58, 58);
+    float: none;
+    font-weight: 500;
+    white-space: pre-line;
+    margin: 20px 30px;
+    font-size: 19px;
+    line-height: 1.2;
+    letter-spacing: 0px;
+}
+
+/* 내용 */
+.hzYJfR {
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    color: rgba(58, 58, 58, 0.9);
+    float: none;
+    font-weight: 500;
+    margin: 10px 30px 0px;
+    font-size: 16px;
+    line-height: 1.63;
+    letter-spacing: 0px;
+}
+
+
+
+/* 설명 밑 hr */
+.cPhxGn {
+    margin: 50px 0px;
+    height: 10px;
+    background-color: rgb(239, 239, 239);
+}
+
+/* 기본정보, 지도, 가는방법, 이곳의 이용팁 container */
+.iOkhHi {
+    margin: 50px 0px;
+}
+
+/* 지도 위 기본정보 container */
+.DBDor {
+    margin: 0px 0px 20px;
+}
+/* 지도 위 기본정보 */
+.bOgakK {
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    color: rgb(58, 58, 58);
+    float: none;
+    font-weight: bold;
+    white-space: pre-line;
+    font-size: 21px;
+    line-height: 1.2;
+    letter-spacing: 0px;
+}
+
+/* static 지도 container*/
+.bfqEtz {
+    box-sizing: border-box;
+    position: relative;
+    float: none;
+}
+/* 지도 */
+.fWzrVz {
+    width: 100%;
+    position: relative;
+    float: none;
+    border-radius: 6px;
+    overflow: hidden;
+    padding: 60% 0px 0px;
+}
+.eLRICW {
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
+    object-fit: cover;
+    z-index: 0;
+    position: absolute;
+    top: 0px;
+}
+.kcjEuA {
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
+    object-fit: cover;
+    z-index: 0;
+    position: absolute;
+    top: 0px;
+}
+
+/* 지도 위 마커 */
+.HtcJg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -15px;
+    margin-left: -15px;
+    width: 30px;
+    height: 30px;
+}
+
+/* 주소, 전화 container*/
+.lbQyRT {
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+.irJLrL {
+    padding: 20px;
+    border-radius: 6px;
+    background-color: rgb(250, 250, 250);
+}
+/* 지도 밑 주소, 전화 */
+ol, ul, menu {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+/* 주소 */
+.dZqDPe {
+    clear: both;
+    position: relative;
+    list-style-type: none;
+}
+/* 주소, 전화 줄바꿈 안되게 */
+.ckRssc {
+    display: flex;
+    align-items: flex-start;
+}
+/* '주소', '전화' 단어 */
+.eFhWnp {
+    flex-shrink: 1;
+    line-height: 1.43;
+}
+/* 긴주소, 긴전화번호 */
+.iTfTZE {
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    color: rgb(58, 58, 58);
+    float: none;
+    font-weight: bold;
+    white-space: pre-line;
+    font-size: 14px;
+    line-height: 1.2;
+    letter-spacing: 0px;
+}
+.jcBrFe {
+    margin-left: 10px;
+    flex: 1 1 0%;
+    line-height: 1.43;
+    word-break: break-all;
+}
+.qeYGc {
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    color: rgba(58, 58, 58, 0.7);
+    float: none;
+    font-weight: 500;
+    white-space: pre-line;
+    font-size: 14px;
+    line-height: 1.2;
+    letter-spacing: 0px;
+}
+
+
+/* 전화 */
+.iWcbtN > li:not(:first-child) {
+    margin-top: 15px;
+}
+.dZqDPe {
+    clear: both;
+    position: relative;
+    list-style-type: none;
+}
+
+.irJLrL::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+/* 가는방법, 이곳의 이용팁 container */
+.hKUXaU {
+    margin: 40px 0px 30px;
+}
+
+/* 가는방법 container */
+.dZqDPe {
+    clear: both;
+    position: relative;
+    list-style-type: none;
+}
+/* '가는방법' '이곳의 이용팁'*/
+.cLAOdS {
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    color: rgb(58, 58, 58);
+    float: none;
+    font-weight: bold;
+    white-space: pre-line;
+    font-size: 16px;
+    line-height: 1.2;
+    letter-spacing: 0px;
+}
+/* 가는방법 긴거 */
+.dclvFp {
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    color: rgba(58, 58, 58, 0.9);
+    float: none;
+    font-weight: 500;
+    white-space: pre-line;
+    margin: 5px 0px 0px;
+    font-size: 16px;
+    line-height: 1.63;
+    letter-spacing: 0px;
+}
+/* 가는방법, 이곳의 이용팁 사이 hr */
+.XKnGY > li:not(:last-child)::after {
+    content: "";
+    display: block;
+    height: 0px;
+    overflow: hidden;
+    border-bottom: 1px solid rgb(239, 239, 239);
+    margin: 20px 0px;
+}
+
+/* 이곳의 이용팁 */
+.XKnGY > li:not(:first-child) {
+    margin-top: 20px;
+}
+/* 이용팁 긴거 */
+.elGMvg {
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    color: rgba(58, 58, 58, 0.9);
+    float: none;
+    font-weight: 500;
+    white-space: pre-line;
+    margin: 4px 0px 0px;
+    font-size: 16px;
+    line-height: 1.63;
+    letter-spacing: 0px;
+}
+
+
+
+

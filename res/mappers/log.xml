@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="log">
+
+    
+
+    <!--  추가 부분: ATCH_FILE_DETAIL에서 필요한 정보 가져오기 -->
+    <!-- 추가 부분: ATCH_FILE_DETAIL 테이블 조인 -->
+    
+    <resultMap id="getLogListResultMap" type="log.vo.LogVO">
+    <id property="logNum" column="LOG_NUM"/>
+    <result property="logTitle" column="LOG_TITLE"/>
+    <result property="logStart" column="LOG_START"/>
+    <result property="logEnd" column="LOG_END"/>
+    <result property="logRegi" column="LOG_REGI"/>
+    <result property="logEdit" column="LOG_EDIT"/>
+    <result property="logCn" column="LOG_CN"/>
+    <result property="logBan" column="LOG_BAN"/>
+    <result property="logStatus" column="LOG_STATUS"/>
+    <result property="logCat" column="LOG_CAT"/>
+    <result property="memId" column="MEM_ID"/>
+    <result property="logSn" column="LOG_SN"/>
+    <result property="atchFileId" column="ATCH_FILE_ID"/>
+    <result property="logCont" column="LOG_CONT" jdbcType="CLOB" javaType="java.lang.String" />
+    <result property="memNick" column="MEM_NICK"/>
+     <!-- 추가된 부분: cityNum과 cityName 매핑 -->
+    <result property="cityNum" column="CITY_NUM"/>
+    <result property="cityName" column="CITY_NAME"/>
+</resultMap>
+    
+    
+    
+    
+    
+    <select id="selectAllLog" resultMap="getLogListResultMap">
+	SELECT l.*, m.MEM_NICK, c.CITY_NUM, c.CITY_NAME
+        FROM log l
+        JOIN member m ON l.MEM_ID = m.MEM_ID
+        LEFT JOIN city c ON l.CITY_NUM = c.CITY_NUM
+        WHERE l.LOG_STATUS = 1
+        ORDER BY l.log_num DESC
+        
+</select>
+
+	<select id="detailLogList" resultType="log.vo.LogVO">
+	
+	
+	SELECT
+    l.log_num AS logNum,
+    l.log_title AS logTitle,
+    l.log_start AS logStart,
+    l.log_end AS logEnd,
+    l.log_regi AS logRegi,
+    l.log_edit AS logEdit,
+    l.log_cn AS logCn,
+    l.log_ban AS logBan,
+    l.log_status AS logStatus,
+    l.log_cat AS logCat,
+    l.mem_id AS memId,
+    l.log_sn AS logSn,
+    l.atch_file_id AS atchFileId,
+    l.log_cont AS logCont,
+    l.city_num AS cityNum,
+    c.city_name AS cityName,
+    m.mem_nick AS memNick
+FROM
+    log l
+    LEFT JOIN city c ON l.city_num = c.city_num
+    LEFT JOIN member m ON l.mem_id = m.mem_id
+WHERE
+    l.log_status = 1
+    AND l.log_num = #{logNum}
+ORDER BY
+    l.log_num DESC
+
+	</select>
+
+<insert id="insertLogComment" parameterType="log.vo.LogComVO">
+insert into LOG_COMMENT 
+    (LOG_COM_NUM, LOG_COM_CN, LOG_COM_DATE, LOG_NUM, MEM_ID)
+    values (SEQ_LOG_COMMENT.nextval, #{logComCn}, SYSDATE, #{logNum}, #{memId})
+
+</insert>
+
+  <select id="selectLogComment" resultType="log.vo.LogComVO">
+        SELECT lc.LOG_COM_NUM AS logComNum,
+               lc.LOG_COM_CN AS logComCn,
+               lc.LOG_COM_LIKE AS logComLike,
+               lc.LOG_COM_DATE AS logComDate,
+               lc.LOG_COM_EDIT AS logComEdit,
+               lc.LOG_COM_DELYN AS logComDelyn,
+               lc.LOG_NUM AS logNum,
+               lc.MEM_ID AS memId,
+               m.MEM_NICK AS memNick
+        FROM log_comment lc
+                 JOIN member m ON lc.MEM_ID = m.MEM_ID
+        WHERE lc.LOG_NUM = #{logNum}
+          AND lc.LOG_COM_DELYN = 'N'
+        ORDER BY LOG_COM_NUM
+    </select>
+
+
+
+	
+	
+<!-- <resultMap type="log.vo.LogVO" id="logResultMap"> -->
+<!--     <id property="logNum" column="LOG_NUM"/> -->
+<!--     <result property="logTitle" column="LOG_TITLE"/> -->
+<!--     <result property="logStart" column="LOG_START"/> -->
+<!--     <result property="logEnd" column="LOG_END"/> -->
+<!--     <result property="logRegi" column="LOG_REGI"/> -->
+<!--     <result property="logEdit" column="LOG_EDIT"/> -->
+<!--     <result property="logCn" column="LOG_CN"/> -->
+<!--     <result property="logBan" column="LOG_BAN"/> -->
+<!--     <result property="logStatus" column="LOG_STATUS"/> -->
+<!--     <result property="logCat" column="LOG_CAT"/> -->
+<!--     <result property="memId" column="MEM_ID"/> -->
+<!--     <result property="logSn" column="LOG_SN"/> -->
+<!--     <result property="atchFileId" column="ATCH_FILE_ID"/> -->
+<!--     <result property="logCont" column="LOG_CONT" jdbcType="CLOB" javaType="java.lang.String" /> -->
+<!-- </resultMap> -->
+
+
+
+
+
+
+
+	<!-- 여행기록 등록 -->
+	<insert id="registerLog" parameterType="log.vo.LogVO">
+
+		insert into log
+			(log_num, log_title, log_start, log_end, log_cont, log_status, log_cat, mem_id,	city_num)
+		values 
+			(seq_log.nextval, #{logTitle},#{logStart},#{logEnd}
+			 ,#{logCont, jdbcType=CLOB},1,#{logCat},#{memId},#{cityNum})
+
+	</insert>
+
+
+
+<!--로그삭제 (1:발행, 2:임시, 3:삭제) -->
+<update id="deleteLog" parameterType="log.vo.LogVO">
+UPDATE LOG
+SET LOG_STATUS = 3
+WHERE LOG_NUM = #{logNum}
+
+
+</update>
+
+<!-- 여행기록 임시저장 -->
+	<insert id="temporyLog" parameterType="log.vo.LogVO">
+
+		insert into log
+			(log_num, log_title, log_start, log_end, log_cont, log_status, log_cat, mem_id,	city_num)
+		values
+			(seq_log.nextval, #{logTitle},#{logStart},#{logEnd}
+			,#{logCont, jdbcType=CLOB},2,#{logCat},'a002',#{cityNum})
+
+	</insert>
+
+<select id="searchLog" parameterType="log.vo.LogVO" resultMap="getLogListResultMap">
+ <![CDATA[
+   SELECT
+        L.LOG_NUM,
+        L.LOG_TITLE,
+        L.LOG_START,
+        L.LOG_END,
+        L.LOG_REGI,
+        L.LOG_EDIT,
+        L.LOG_CN,
+        L.LOG_BAN,
+        L.LOG_STATUS,
+        L.LOG_CAT,
+        L.MEM_ID,
+        L.LOG_SN,
+        L.ATCH_FILE_ID,
+        L.CITY_NUM,
+        L.LOG_CONT,
+        M.MEM_NICK,
+        C.CITY_NAME
+    FROM LOG L
+    JOIN MEMBER M ON L.MEM_ID = M.MEM_ID
+    LEFT JOIN CITY C ON L.CITY_NUM = C.CITY_NUM
+    WHERE L.LOG_STATUS = 1
+    AND L.LOG_TITLE LIKE '%' || #{logTitle} || '%'
+    ORDER BY L.LOG_REGI DESC
+    ]]>
+    </select>
+	
+	<!-- 여행기록수정 -->
+	<update id="updateLog" parameterType="log.vo.LogVO">
+
+    update log
+    set
+        log_title = #{logTitle},
+        log_start = #{logStart},
+        log_end = #{logEnd},
+        log_regi = sysdate,
+        log_cont = #{logCont, jdbcType=CLOB},
+        log_cat = #{logCat},
+        city_num = #{cityNum}
+    	where
+        log_num = #{logNum}
+
+	</update>
+	
+	
+	<select id="countComment" resultType="java.lang.Integer">
+    SELECT COUNT(LOG_COM_NUM) AS logComNum
+    FROM LOG_COMMENT
+    WHERE LOG_NUM = #{logNum}
+    
+</select>
+
+	<!-- 도시별 여행기록 리스트 -->
+	<select id="selectLogByCity" resultMap="getLogListResultMap">
+	SELECT l.*, m.MEM_NICK, c.CITY_NUM, c.CITY_NAME
+    FROM log l
+    JOIN member m ON l.MEM_ID = m.MEM_ID
+    LEFT JOIN city c ON l.CITY_NUM = c.CITY_NUM
+    WHERE l.LOG_STATUS = 1
+    AND l.CITY_NUM = #{cityNum}
+    ORDER BY l.log_num DESC
+	
+	</select>
+
+
+
+   <select id="selectMemberLogList" resultMap="getLogListResultMap">
+		SELECT l.LOG_NUM, l.LOG_TITLE, l.LOG_START, l.LOG_END, l.LOG_REGI, l.LOG_EDIT
+			,l.LOG_STATUS, l.LOG_CAT, l.MEM_ID, l.CITY_NUM, l.LOG_CONT
+			, m.MEM_NICK, c.CITY_NUM, c.CITY_NAME
+	    FROM LOG l
+	    JOIN MEMBER m ON l.MEM_ID = m.MEM_ID
+	    LEFT JOIN CITY c ON l.CITY_NUM = c.CITY_NUM
+	    WHERE l.MEM_ID = #{memId} 
+	    AND l.LOG_STATUS != 3
+	    ORDER BY l.LOG_NUM DESC
+        
+   </select>
+
+	<select id="logCount" resultType="java.lang.Integer">
+	SELECT COUNT(*) 
+	FROM LOG
+	WHERE mem_id = #{memId} AND log_status = '1'
+    
+</select>
+
+
+</mapper>

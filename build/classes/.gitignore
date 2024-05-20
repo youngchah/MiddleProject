@@ -1,0 +1,16 @@
+/admin/
+/city/
+/common/
+/community/
+/config/
+/cs/
+/db.properties
+/file/
+/filter/
+/landmark/
+/log/
+/log4j2.xml
+/mappers/
+/member/
+/plan/
+/util/
